@@ -211,6 +211,15 @@ function help_contact(self, describe){
   self.echo('Usage: `contact`\nDisplays my email address.');
 }
 
+function help_base64(self, describe){
+  if (describe){
+    self.echo($('<p><u>base64</u></p>'));
+    self.echo('Encode/Decode a string in base64.\n');
+  }
+  self.echo('Usage: `base64` [option] [string]\nWhere [option] is either "encode" or "decode"\nand [string] ' +
+  'is the string to encode/decode, wrapped in double quotes (")');
+}
+
 $('.terminal').terminal({
     info: function() {
         this.echo($('<p>Welcome! Before we begin, you should know that you do not have to interact with this\n' + 
@@ -229,6 +238,7 @@ $('.terminal').terminal({
           help_cat(this, true);
           help_hexdump(this, true);
           help_contact(this, true);
+          help_base64(this, true);
         } else if (command == "help"){
           help_help(this, true);
         } else if (command == "theme"){
@@ -346,6 +356,15 @@ $('.terminal').terminal({
     },
     contact: function(){
       this.echo(atob(atob("YzJGdGRXVnNZMmhwYkdSbFluSmhibVJBWjIxaGFXd3VZMjl0Q2c9PQo=")));
+    },
+    base64: function(option, string){
+      if (option == "encode"){
+        this.echo(btoa(string));
+      } else if (option == "decode"){
+        this.echo(atob(string));
+      }else {
+        help_base64(this, false);
+      }
     },
 }, {
     greetings: 'Samuel Hildebrand, Cybersecurity Researcher and Engineer\n\nType `info` for information about the terminal.'
