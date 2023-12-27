@@ -251,6 +251,8 @@ $('.terminal').terminal({
           help_hexdump(this, true);
         } else if (command == "contact"){
           help_contact(this, true);
+        } else if (command == "base64"){
+          help_base64(this, true);
         } else {
           this.echo('Usage: help [command]\nWhere [command] is the name of the command to show help for,\n'+
           'Or show all commands if [command] is "all"')
