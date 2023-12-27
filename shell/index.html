@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shell | Samuel Hildebrand - Cybersecurity Researcher and Professional</title>
+<script src="https://cdn.jsdelivr.net/npm/jquery"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.terminal/js/jquery.terminal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.terminal/css/jquery.terminal.min.css"/>
+<style>
+
+:root{
+  --background: black;
+  --text: white;
+  --text-shadow: #daeb8c;
+}
+
+body {
+  background-color: var(--background) !important;
+  font-size: 32px !important;
+  font: 1.3rem Inconsolata, monospace;
+  text-shadow: 0 0 20px var(--text-shadow);
+  color: var(--text)  !important;
+  }
+
+::selection {
+  background: #a9a9a9;
+  text-shadow: none;
+}
+
+.terminal{
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  padding: 2rem;
+}
+
+@media only screen and (min-width: 992px) {
+  .terminal{
+      float:left;
+      width: 60%;
+  }
+
+  .about{
+      float:right;
+      width: 40%;
+  }
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #21f34b;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+  html * {
+    font-size: 32px !important;
+    color: var(--text)  !important;
+    font: 1.3rem Inconsolata, monospace;
+    text-shadow: 0 0 20px var(--text-shadow);
+  }
+
+</style>
+</head>
+<body>
+  <span class="about"><center style="padding: 20px;"><img src="shilde2.png" alt="Headshot of Samuel Hildebrand" width="70%" height="70%">
+    <br>
+    I'm a cybersecurity professional and researcher based in Baton Rouge, Louisiana. - Lsu CSC/Cybersecurity</center>
+
+  <center>
+    <a href="https://www.linkedin.com/in/samuel-hildebrand/">LinkedIn</a>
+    <a href="https://www.github.com/Sam-Hildebrand">Github</a>
+    <a href="https://Sam-Hildebrand.github.io/the-blog">Blog</a>
+    <a href="https://www.lsu.edu/cybersecurity/index.php">LSU Cybersecurity</a>
+</center>
+<br>
+<center>
+  <label class="switch">
+    <input type="checkbox" id="theme-selector" checked>
+    <div class="slider"></div>
+  </label>
+  <text id="theme-identifier">Dark Mode</text>
+</center>
+  </span>
+  <br>
+  <span class="terminal"></span>
+
+<script>
+  function setDarkMode(){
+    document.querySelector(':root').style.setProperty('--background', 'black');
+    document.querySelector(':root').style.setProperty('--text', 'white');
+    document.querySelector(':root').style.setProperty('--text-shadow', "#daeb8c");
+    $("#theme-selector").prop("checked", true);
+    $("#theme-identifier").html("Dark Mode");
+  }
+
+  function setLightMode(){
+    document.querySelector(':root').style.setProperty('--background', 'white');
+    document.querySelector(':root').style.setProperty('--text', 'black');
+    document.querySelector(':root').style.setProperty('--text-shadow', "#63645f");
+    $("#theme-selector").prop("checked", false);
+    $("#theme-identifier").html("Light Mode");
+  }
+
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          setDarkMode();
+      } else {
+        setLightMode();
+      }
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+  var checkbox = document.querySelector('input[type="checkbox"]');
+
+  checkbox.addEventListener('change', function () {
+    if (checkbox.checked) {
+      setDarkMode();
+    } else {
+      setLightMode();
+    }
+  });
+});
+
+//help functions (displays usage for each command)
+function help_help(self, describe){
+  self.echo('ummmm....');
+}
+
+function help_theme(self, describe){
+  if (describe){
+    self.echo($('<p><u>theme</u></p>'));
+    self.echo('Changes the theme to either "light" or "dark" mode.\n');
+  }
+  self.echo('Usage: `theme` [mode]\nWhere [mode] can be "light" or "dark"\n');
+}
+
+function help_file(self, describe){
+  if (describe){
+    self.echo($('<p><u>file</u></p>'));
+    self.echo('Opens a file selector dialog and displays stats about the selected file.\n' +
+    'All operations happen locally in the browser, no upload takes place.\n');
+  }
+  self.echo('Usage: `file`\nWill open a file selector dialog and\ndisplay stats about the selected file');
+}
+
+function help_cat(self, describe){
+  if (describe){
+    self.echo($('<p><u>cat</u></p>'));
+    self.echo('Opens a file selector dialog and displays the contents of the selected file as text.\n' +
+    'All operations happen locally in the browser, no upload takes place.\n');
+  }
+  self.echo('Usage: `cat`\nWill open a file selector dialog and\nprint the contents of the file as text.');
+}
+
+function help_hexdump(self, describe){
+  if (describe){
+    self.echo($('<p><u>hexdump</u></p>'));
+    self.echo('Opens a file selector dialog and displays the binary contents of the selected file as hexadecimal.\n' +
+    'All operations happen locally in the browser, no upload takes place.\n');
+  }
+  self.echo('Usage: `hexdump`\nWill open a file selector dialog and\nprint the binary contents of that file as hexadecimal.');
+}
+
+function help_contact(self, describe){
+  if (describe){
+    self.echo($('<p><u>contact</u></p>'));
+    self.echo('Decodes my email address. Used to make it harder for webscrapers to find my contact.\n');
+  }
+  self.echo('Usage: `contact`\nDisplays my email address.');
+}
+
+$('.terminal').terminal({
+    info: function() {
+        this.echo($('<p>Welcome! Before we begin, you should know that you do not have to interact with this\n' + 
+        'terminal. I built it for fun and because I thought it might be useful to have\n' +
+        'a few basic tools in a web browser, but all the information you may need about me\n' + 
+        'can be found on other pages, particularly my <a href="https://Sam-Hildebrand.github.io/the-blog">blog</a>.</p>'));
+        this.echo($('<p>The one exception to this is my contact information, which can only be found here. You can view it by\n' +
+        'using the <u title="Usage: `contact`&#013;&#010;Displays my email address.">contact</u> command. You can also message\n'+
+        'me on  <a href="https://www.linkedin.com/in/samuel-hildebrand/">LinkedIn</a>.</p>'));
+        this.echo('Type `help all` to show and describe all commands.');
+    },
+    help: function(command) {
+        if (command == "all"){
+          help_theme(this, true);
+          help_file(this, true);
+          help_cat(this, true);
+          help_hexdump(this, true);
+          help_contact(this, true);
+        } else if (command == "help"){
+          help_help(this, true);
+        } else if (command == "theme"){
+          help_theme(this, true);
+        } else if (command == "file"){
+          help_file(this, true);
+        } else if (command == "cat"){
+          help_cat(this, true);
+        } else if (command == "hexdump"){
+          help_hexdump(this, true);
+        } else if (command == "contact"){
+          help_contact(this, true);
+        } else {
+          this.echo('Usage: help [command]\nWhere [command] is the name of the command to show help for,\n'+
+          'Or show all commands if [command] is "all"')
+        }
+    },
+    theme: function(mode) {
+      if (mode == "light") {
+        setLightMode();
+      } else if (mode == "dark") {
+        setDarkMode();
+      } else {
+        help_theme(this, false);
+      }
+    },
+    file: function() {
+      var input = document.createElement('input');
+      input.type = 'file';
+
+      input.onchange = e => { 
+
+        // getting a hold of the file reference
+        var file = e.target.files[0]; 
+
+        this.echo('filename: ' + file.name + '\nfiletype: ' + file.type + '\nfilesize: ' + file.size + ' bytes');
+
+      }
+
+      input.click();
+    },
+
+    cat: function() {
+      var input = document.createElement('input');
+      input.type = 'file';
+
+      input.onchange = e => { 
+
+        // getting a hold of the file reference
+        var file = e.target.files[0]; 
+
+        // setting up the reader
+        var reader = new FileReader();
+        reader.readAsText(file,'UTF-8');
+
+        // here we tell the reader what to do when it's done reading...
+        reader.onload = readerEvent => {
+            var content = readerEvent.target.result; // this is the content!
+            this.echo(content);
+        }
+
+      }
+
+      input.click();
+    },
+    hexdump: function() {
+      var input = document.createElement('input');
+      input.type = 'file';
+
+      input.onchange = e => { 
+
+        // getting a hold of the file reference
+        var file = e.target.files[0]; 
+
+        // setting up the reader
+        var reader = new FileReader();
+        reader.readAsBinaryString(file);
+
+        reader.onload = readerEvent => {
+            var buffer = readerEvent.target.result;
+            let lines = []
+
+            for (let i = 0; i < buffer.length; i += 8) {
+              let address = i.toString(16).padStart(8, '0')
+              let block = buffer.slice(i, i + 8)
+              let hexArray = []
+              let asciiArray = []
+              let padding = ''
+
+              for (let value of block) {
+                hexArray.push(value.charCodeAt(0).toString(16).padStart(2, '0'))
+                asciiArray.push(value.charCodeAt(0) >= 0x20 && value.charCodeAt(0) < 0x7f ? value : '.')
+              }
+
+              if (hexArray.length < 8) {
+                let space = 8 - hexArray.length
+                padding = ' '.repeat(space * 2 + space + (hexArray.length < 9 ? 1 : 0))
+              }
+
+              let hexString =
+                hexArray.length > 8
+                  ? hexArray.slice(0, 8).join(' ') + '  ' + hexArray.slice(8).join(' ')
+                  : hexArray.join(' ')
+
+              let asciiString = asciiArray.join('')
+              let line = `${address}  ${hexString}  ${padding}|${asciiString}|`
+
+              this.echo(line);
+            }
+        }
+
+      }
+
+      input.click();
+    },
+    contact: function(){
+      this.echo(atob(atob("YzJGdGRXVnNZMmhwYkdSbFluSmhibVJBWjIxaGFXd3VZMjl0Q2c9PQo=")));
+    },
+}, {
+    greetings: 'Samuel Hildebrand, Cybersecurity Researcher and Engineer\n\nType `info` for information about the terminal.'
+});
+</script>
+</body>
+</html>
