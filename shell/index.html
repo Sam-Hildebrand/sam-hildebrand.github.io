@@ -26,20 +26,25 @@ body {
   text-shadow: none;
 }
 
-.terminal{
+.terminal-pane{
   height: 100vh;
   margin: 0;
   overflow: hidden;
   padding: 2rem;
 }
 
+.about{
+  font-size: 32px;
+}
+
 @media only screen and (min-width: 992px) {
-  .terminal{
+  .terminal-pane{
       float:left;
       width: 60%;
   }
 
   .about{
+    font-size: 32px;
       float:right;
       width: 40%;
   }
@@ -94,6 +99,13 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
+  .terminal {
+    --size: 2.5;
+    color: var(--text)  !important;
+    font: 1.3rem Inconsolata, monospace;
+    text-shadow: 0 0 20px var(--text-shadow);
+    }
+
   html * {
     font-size: 32px !important;
     color: var(--text)  !important;
@@ -124,7 +136,7 @@ input:checked + .slider:before {
 </center>
   </span>
   <br>
-  <span class="terminal"></span>
+  <span class="terminal-pane"></span>
 
 <script>
   function setDarkMode(){
@@ -220,7 +232,7 @@ function help_base64(self, describe){
   'is the string to encode/decode, wrapped in double quotes (")');
 }
 
-$('.terminal').terminal({
+$('.terminal-pane').terminal({
     info: function() {
         this.echo($('<p>Welcome! Before we begin, you should know that you do not have to interact with this\n' + 
         'terminal. I built it for fun and because I thought it might be useful to have\n' +
