@@ -232,6 +232,16 @@ function help_base64(self, describe){
   'is the string to encode/decode, wrapped in double quotes (")');
 }
 
+function help_rot13(self, describe){
+  if (describe){
+    self.echo($('<p><u>rot13</u></p>'));
+    self.echo('Rotate each character of a string by 13 letters in the English alphabet.\n'+
+    'Sometimes used as a very simple cipher.\n');
+  }
+  self.echo('Usage: `rot13` [string]\nWhere [string] ' +
+  'is the string to preform rot13 on, wrapped in double quotes (")');
+}
+
 $('.terminal-pane').terminal({
     info: function() {
         this.echo($('<p>Welcome! Before we begin, you should know that you do not have to interact with this\n' + 
@@ -241,7 +251,7 @@ $('.terminal-pane').terminal({
         this.echo($('<p>The one exception to this is my contact information, which can only be found here. You can view it by\n' +
         'using the <u title="Usage: `contact`&#013;&#010;Displays my email address.">contact</u> command. You can also message\n'+
         'me on  <a href="https://www.linkedin.com/in/samuel-hildebrand/">LinkedIn</a>.</p>'));
-        this.echo('Type `help all` to show and describe all commands.');
+        this.echo($('<p>Type `help all` to show and describe all commands.</p>'));
     },
     help: function(command) {
         if (command == "all"){
@@ -251,6 +261,7 @@ $('.terminal-pane').terminal({
           help_hexdump(this, true);
           help_contact(this, true);
           help_base64(this, true);
+          help_rot13(this, true);
         } else if (command == "help"){
           help_help(this, true);
         } else if (command == "theme"){
@@ -265,6 +276,8 @@ $('.terminal-pane').terminal({
           help_contact(this, true);
         } else if (command == "base64"){
           help_base64(this, true);
+        } else if (command == "rot13"){
+          help_rot13(this, true);
         } else {
           this.echo('Usage: help [command]\nWhere [command] is the name of the command to show help for,\n'+
           'Or show all commands if [command] is "all"')
@@ -379,6 +392,9 @@ $('.terminal-pane').terminal({
       }else {
         help_base64(this, false);
       }
+    },
+    rot13: function(string){
+      this.echo(string.replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
     },
 }, {
     greetings: 'Samuel Hildebrand, Cybersecurity Researcher and Engineer\n\nType `info` for information about the terminal.'
