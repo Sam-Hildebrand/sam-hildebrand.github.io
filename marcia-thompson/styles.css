@@ -1,0 +1,188 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Georgia", "Times New Roman", serif;
+    background: #f6f7f5;
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Background image panels */
+.bg-panel {
+    position: fixed;
+    top: 0;
+    width: 35vw;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 80%;
+    opacity: 0.15;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bg-panel.left {
+    left: 0;
+    background-image: url("hummingbirds/hummingbird-silhouette.jpg");
+}
+
+.bg-panel.right {
+    right: 0;
+    background-image: url("hummingbirds/Hummingbird-flower.jpg");
+}
+
+/* Main content card */
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: #ffffffee;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.name {
+    font-size: 2.5rem;
+    font-weight: normal;
+}
+
+.dates {
+    font-style: italic;
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+.service {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+}
+
+/* Obituary */
+.obituary p {
+    margin-bottom: 1.2rem;
+}
+
+/* Buttons */
+.actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.button {
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    transition: transform 0.2s;
+}
+
+.flowers {
+    background: #d7e6dc;
+    color: #2f4f3f;
+}
+
+.donate {
+    background: #e6d7dc;
+    color: #4f2f3f;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+}
+
+/* ===== FIXED GALLERY ===== */
+
+.gallery {
+    margin: 3rem 0;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+/* Each image = fixed width */
+.slides {
+    display: flex;
+    gap: 1rem;
+    width: calc(37 * 260px);
+    animation: scrollGallery 240s linear infinite;
+}
+
+/* Constant image size */
+.slides img {
+    width: 260px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+/* Slow, respectful scroll */
+@keyframes scrollGallery {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-1 * (37 * 260px)));
+    }
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.funeral-home {
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.footer a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .bg-panel {
+        display: none;
+    }
+
+    .container {
+        margin: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .name {
+        font-size: 2rem;
+    }
+
+    .slides img {
+        width: 200px;
+        height: 140px;
+    }
+
+    .slides {
+        width: calc(37 * 200px);
+        animation-duration: 300s;
+    }
+}
